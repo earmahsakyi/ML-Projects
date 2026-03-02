@@ -11,6 +11,7 @@ from sklearn.preprocessing import OneHotEncoder,StandardScaler
 from sklearn.pipeline import Pipeline
 from src.utils import save_object
 from src.components.data_ingestion import DataIngestion
+from src.components.model_trainer import ModelTrainer
 
 
 
@@ -123,13 +124,19 @@ class DataTransformation:
             raise CustomException(e,sys)
     
 
-
-if __name__ == "__main__":
-    data= DataIngestion() 
-    train_data_path,test_data_path = data.initiate_data_ingestion()
+if __name__ == '__main__':
+    obj = DataIngestion()
+    train_data_path,test_data_path = obj.initiate_data_ingestion()
 
     data_transformation = DataTransformation()
-    data_transformation.initiate_data_transformation(train_data_path,test_data_path)
+    train_arr,test_arr,obj_path  = data_transformation.initiate_data_transformation(train_path=train_data_path,test_path=test_data_path)
+
+    model_trainer = ModelTrainer()
+    score = model_trainer.initiate_model_trainer(train_array=train_arr,test_array=test_arr)
+    print(score)
+
+
+
 
 
 
